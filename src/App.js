@@ -46,16 +46,6 @@ function Weather()
                         let windspeed = data.wind.speed; // wind is in m / s
                         let winddegree = data.wind.deg; // we convert wind degree to a direction
                         let winddirection = WindDirection(winddegree);
-                        if (measurement === 'I')
-                        {
-                            temp = Math.round(((temp - 273.15) * 9) / 5) + 32;
-                            windspeed = Math.round(windspeed / 0.44704);
-                        }
-                        else if (measurement === 'M')
-                        {
-                            temp = Math.round(((temp - 273.15) * 9) / 5);
-                            windspeed = Math.round(windspeed * 3.6);
-                        }
 
                         name.innerHTML = weathername;
                         switch (weathername)
@@ -108,12 +98,15 @@ function Weather()
                         }
                         if (measurement === 'I')
                         {
-                            desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + "F. Winds " + winddirection + " at " + windspeed + " miles per hour.";
+                            temp = Math.round(((temp - 273.15) * 9) / 5) + 32 + "F"; // F is (((Kelvin - 273.15) * 9) / 5) + 32
+                            windspeed = Math.round(windspeed / 0.44704) + " miles per hour"; // MPH is M/S / 0.44704
                         }
                         else if (measurement === 'M')
                         {
-                            desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + "C. Winds " + winddirection + " at " + windspeed + " kilometers per hour.";
+                            temp = Math.round(((temp - 273.15) * 9) / 5) + "C"; // C is (((Kelvin - 273.15) * 9) / 5)
+                            windspeed = Math.round(windspeed * 3.6) + " kilometers per hour"; // KM/H is M/S * 3.6
                         }
+                        desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
                     })
                     .catch((error) => // something went wrong?
                     {
