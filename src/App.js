@@ -1,6 +1,7 @@
 ﻿import React, { useEffect } from 'react';
 import './App.css';
 const apikey = '';
+let measurement = 'I'; // I = Imperial, M = Metric
 
 function WindDirection(degree)
 {
@@ -42,11 +43,19 @@ function Weather()
                         weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
                         let city = data.name;
                         let temp = data.main.temp; // temp is in Kelvin
-                        temp = Math.round(((temp - 273.15) * 9) / 5) + 32;
                         let windspeed = data.wind.speed; // wind is in m / s
-                        windspeed = Math.round(windspeed / 0.44704);
                         let winddegree = data.wind.deg; // we convert wind degree to a direction
                         let winddirection = WindDirection(winddegree);
+                        if (measurement === 'I')
+                        {
+                            temp = Math.round(((temp - 273.15) * 9) / 5) + 32;
+                            windspeed = Math.round(windspeed / 0.44704);
+                        }
+                        else if (measurement === 'M')
+                        {
+                            temp = Math.round(((temp - 273.15) * 9) / 5);
+                            windspeed = Math.round(windspeed * 3.6);
+                        }
 
                         name.innerHTML = weathername;
                         switch (weathername)
@@ -97,7 +106,14 @@ function Weather()
                                 icon.innerHTML = "❓";
                                 break;
                         }
-                        desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + "F. Winds " + winddirection + " at " + windspeed + " miles per hour. ";
+                        if (measurement === 'I')
+                        {
+                            desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + "F. Winds " + winddirection + " at " + windspeed + " miles per hour.";
+                        }
+                        else if (measurement === 'M')
+                        {
+                            desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + "C. Winds " + winddirection + " at " + windspeed + " kilometers per hour.";
+                        }
                     })
                     .catch((error) => // something went wrong?
                     {
@@ -129,6 +145,12 @@ function WeatherUpdater()
     }, []); 
 }
 
+function ToggleMeasurements()
+{
+    Weather();
+    return measurement === 'I' ? measurement = 'M' : measurement = 'I';
+}
+
 function App()
 {
     // add a timeout so it doesn't try to call the Weather function before the page is fully loaded.
@@ -141,7 +163,7 @@ function App()
         <div id="weathericon"></div>
         <h1 id="weathername">Please let your browser see your location!</h1>
         <div id="weatherdesc">Otherwise this will not work!</div>
-        <button id="refreshweather" onClick={Weather} >Refresh</button>
+        <span width="100%"><button id="refreshweather" onClick={Weather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements}>Toggle Imperial/Metric</button></span>
         </div>
     </div>
   );
