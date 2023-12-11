@@ -16,7 +16,7 @@ offers a refresh button and automatically refreshes every 15 minutes the page is
 ## How can I run it?
 You can either run it through Visual Studio 2019 through 2022 (potentially earlier) using Node.js developer tools, or Node.js itself.<br>
 For Visual Studio, simply clone this project from GitHub and run the program in Visual Studio.<br>
-For Node.js, open up command prompt and cd to the project folder. Then, type node app.js when you're located inside the project folder.<br>
+For Node.js, open up command prompt and cd to the project folder. Then, type npm start when you're located inside the project folder.<br>
 In either case, it will run by default on localhost on port 3000.
-The API Key needs to be inputted into the program in order for it to run, which can be found in App.js as "const apikey = '';". Put the API key 
+The API Key needs to be inputted into the program in order for it to run, which can be found in Weather.js as "const apikey = '';". Put the API key 
 the website gives you between the '' 's.

@@ -33,68 +33,13 @@ export function Weather(type) {
                         let weatherdesc = data.weather[0].description;
                         weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
                         let city = data.name;
-                        let temp = data.main.temp; // temp is in Kelvin
-                        let windspeed = data.wind.speed; // wind is in m / s
-                        let winddegree = data.wind.deg; // we convert wind degree to a direction
-                        let winddirection = WindDirection(winddegree);
+                        let temp = TempConverter(data.main.temp); // temp is in Kelvin
+                        let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
+                        let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
 
-                        name.innerHTML = weathername;
-                        switch (weathername)
-                        {
-                            // https://openweathermap.org/weather-conditions
-                            case 'Snow':
-                                icon.innerHTML = "🌨️"
-                                break;
-                            case 'Rain':
-                            case 'Drizzle':
-                                icon.innerHTML = "🌧️"
-                                break;
-                            case 'Thunderstorm':
-                                icon.innerHTML = "🌩️"
-                                break;
-                            case 'Clouds':
-                                icon.innerHTML = "☁️"
-                                break;
-                            case 'Clear':
-                                let time = new Date();
-                                let hour = time.getHours();
-                                if (hour >= 18 || hour <= 6) {
-                                    icon.innerHTML = "🌙"
-                                }
-                                else {
-                                    icon.innerHTML = "☀️";
-                                }
-                                break;
-                            case 'Fog':
-                            case 'Haze':
-                            case 'Mist':
-                            case 'Dust':
-                            case 'Ash':
-                            case 'Sand':
-                            case 'Smoke':
-                                icon.innerHTML = "🌁";
-                                break;
-                            case 'Tornado':
-                                icon.innerHTML = "🌪️";
-                                break;
-                            case 'Squall': // wind storm
-                                icon.innerHTML = "💨";
-                                weathername = "Windy";
-                                break;
-                            default:
-                                icon.innerHTML = "❓";
-                                break;
-                        }
-                        if (measurement === 'I')
-                        {
-                            temp = Math.round(((temp - 273.15) * 9) / 5) + 32 + "F"; // F is (((Kelvin - 273.15) * 9) / 5) + 32
-                            windspeed = Math.round(windspeed / 0.44704) + " miles per hour"; // MPH is M/S / 0.44704
-                        }
-                        else if (measurement === 'M')
-                        {
-                            temp = Math.round(((temp - 273.15) * 9) / 5) + "C"; // C is (((Kelvin - 273.15) * 9) / 5)
-                            windspeed = Math.round(windspeed * 3.6) + " kilometers per hour"; // KM/H is M/S * 3.6
-                        }
+                        icon.innerHTML = WeatherIcon(weathername);
+                        name.innerHTML = weathername == "Squall" ? "Windy" : weathername; // squall is a wind storm
+                      
                         desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
                     })
                     .catch((error) =>
@@ -132,10 +77,93 @@ export function ToggleMeasurements()
     return measurement === 'I' ? measurement = 'M' : measurement = 'I';
 }
 
+// Converts wind degrees 
 function WindDirection(degree)
 {
     // directions are clockwise as that's how degrees also go, in a clockwise fashion
     var directions = ["North", "North East", "East", "South East", "South", "South West", "West", "North West"];
     let i = Math.round(((degree % 360) / 45) % 8);
     return directions[i];
+}
+
+// Converts wind speed
+function WindSpeedConverter(speed)
+{
+    switch (measurement)
+    {
+        case 'I':
+        default:
+            speed = Math.round(speed / 0.44704) + " miles per hour"; // MPH is M/S / 0.44704
+            break;
+        case 'M':
+            speed = Math.round(speed * 3.6) + " kilometers per hour"; // KM/H is M/S * 3.6
+            break;
+    }
+    return speed;
+}
+
+// Converts temp
+function TempConverter(temp)
+{
+    switch (measurement)
+    {
+        case 'I':
+        default:
+            temp = Math.round(((temp - 273.15) * 9) / 5) + 32 + "F"; // F is (((Kelvin - 273.15) * 9) / 5) + 32
+            break;
+        case 'M':
+            temp = Math.round(((temp - 273.15) * 9) / 5) + "C"; // C is (((Kelvin - 273.15) * 9) / 5)
+            break;
+    }
+    return temp;
+}
+
+function WeatherIcon(weathername)
+{
+    switch (weathername) {
+        // https://openweathermap.org/weather-conditions
+        case 'Snow':
+            return "🌨️"
+            break;
+        case 'Rain':
+        case 'Drizzle':
+            return "🌧️"
+            break;
+        case 'Thunderstorm':
+            return "🌩️"
+            break;
+        case 'Clouds':
+            return "☁️"
+            break;
+        case 'Clear':
+            let time = new Date();
+            let hour = time.getHours();
+            if (hour >= 18 || hour <= 6)
+            {
+                return "🌙"
+            }
+            else
+            {
+                return "☀️";
+            }
+            break;
+        case 'Fog':
+        case 'Haze':
+        case 'Mist':
+        case 'Dust':
+        case 'Ash':
+        case 'Sand':
+        case 'Smoke':
+            return "🌁";
+            break;
+        case 'Tornado':
+            return "🌪️";
+            break;
+        case 'Squall': // wind storm
+            return "💨";
+            break;
+        default:
+            return "❓";
+            break;
+    }
 }
