@@ -18,5 +18,6 @@ You can either run it through Visual Studio 2019 through 2022 (potentially earli
 For Visual Studio, simply clone this project from GitHub and run the program in Visual Studio.<br>
 For Node.js, open up command prompt and cd to the project folder. Then, type npm start when you're located inside the project folder.<br>
 In either case, it will run by default on localhost on port 3000.
-The API Key needs to be inputted into the program in order for it to run, which can be found in Weather.js as "const apikey = '';". Put the API key 
-the website gives you between the '' 's.
+The API Key needs to be inputted into the program in order for it to run, which can be found in config.json as "apikey". Put the API key 
+the website gives you between the "" 's.
+To alter the default measurement on page load, go into config.json and change "measurement" from I for Imperial to M for Metric, or vice versa.
