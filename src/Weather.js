@@ -1,52 +1,60 @@
 ﻿import { useEffect } from 'react';
-
 // Config
-import * as config from './config.json';
-// apikey is your OpenWeatherMap API Key. measurement is the default measurement on page load. I = Imperial, M = Metric.
-const { apikey, measurement } = config;
+import config from './config.json';
+const apikey = config.apikey; // api key, set in config.json
+let measurement = config.measurement; // default measurement on page load, set in config.json. I = Imperial, M = Metric.
+let weather = "weather"; // default unless page is for the 5 day forecast
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
 let success = true; // used to determine if it succeeded in getting the location.
 
-// At this moment weather
+// Weather function, splits off into Forecast if we're on the 5 Day Forecast Page
 export function Weather(type)
 {
-    // get the elements that need changing later on
-    let name = document.getElementById("weathername");
-    let desc = document.getElementById("weatherdesc");
-    let icon = document.getElementById("weathericon");
-
     if (lat !== "" && lon !== "")
     {
-        fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
-            .then((response) => // we try to get a response
-            {
-                if (response.ok)
-                {
-                    return response.json(); // we get the response in JSON
-                }
-                throw new Error('If you got this error, either the API is down or you do not have a valid API Key.\nURL: https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
-            })
-            .then((data) => // we got a response, here's the data
-            {
-                // This is based on the structure of the JSON response openweathermap gives us.
-                let weathername = data.weather[0].main;
-                let weatherdesc = data.weather[0].description;
-                weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
-                let city = data.name;
-                let temp = TempConverter(data.main.temp); // temp is in Kelvin
-                let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
-                let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
+        switch (type) {
+            default:
+            case "weather":
+                // Weather Page
+                fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
+                    .then((response) => // we try to get a response
+                    {
+                        if (response.ok) {
+                            return response.json(); // we get the response in JSON
+                        }
+                        throw new Error('If you got this error, either the API is down or you do not have a valid API Key.\nURL: https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
+                    })
+                    .then((data) => // we got a response, here's the data
+                    {
+                        // get the elements that need changing later on
+                        let name = document.getElementById("weathername");
+                        let desc = document.getElementById("weatherdesc");
+                        let icon = document.getElementById("weathericon");
+                        // This is based on the structure of the JSON response openweathermap gives us.
+                        let weathername = data.weather[0].main;
+                        let weatherdesc = data.weather[0].description;
+                        weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
+                        let city = data.name;
+                        let temp = TempConverter(data.main.temp); // temp is in Kelvin
+                        let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
+                        let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
 
-                icon.innerHTML = WeatherIcon(weathername);
-                name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
+                        icon.innerHTML = WeatherIcon(weathername);
+                        name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
 
-                desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
-            })
-            .catch((error) =>
-            {
-                console.error(error); // fetch doesn't work
-            });
+                        desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
+                    })
+                    .catch((error) => {
+                        console.error(error); // fetch doesn't work
+                    });
+                break;
+
+            case "forecast":
+                // Forecast Page, let Forecast handle it.
+                Forecast();
+                break;
+        }
     }
     else // if lat and lon aren't set, geolocation api hasn't finished running / hasn't been called yet
     {
@@ -59,10 +67,75 @@ export function Weather(type)
         {
             Location() // try again.
         }
-        setTimeout(() => Weather(), 10000); // let's wait 10 seconds and call the function again.
+        setTimeout(() => Weather(type), 10000); // let's wait 10 seconds and call the function again.
     }
 }
 
+// Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via Weather.
+function Forecast()
+{
+    fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
+        .then((response) => // we try to get a response
+        {
+            if (response.ok) {
+                return response.json(); // we get the response in JSON
+            }
+            throw new Error('If you got this error, either the API is down or you do not have a valid API Key.\nURL: https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
+        })
+        .then((data) => // we got a response, here's the data
+        {
+            let hi = document.getElementById("hi");
+            let city = data.city.name;
+            hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
+
+            const { list } = data;
+            const WeatherData = [];
+            for (let i = 0; i < list.length; i++)
+            {
+                // get the day, main (which is where we getr temp), weather, and wind speed/dir from the current data row.
+                const { dt, main, weather, wind } = list[i];
+
+                let dayofweek = new Date(dt * 1000).toLocaleDateString('en-US', { weekday: 'long' });
+                let weathername = weather[0].main;
+                let temp = TempConverter(main.temp);
+                let windspeed = WindSpeedConverter(wind.speed);
+                let winddirection = WindDirection(wind.deg);
+
+
+                // Check if data for this day exists already in the WeatherData array, to prevent duplicates.
+                const ExistingData = WeatherData.find((data) => data[0]?.day === dayofweek);
+
+                // Make Day Object which will be pushed to our WeatherData Array
+                const Day =
+                {
+                    day: dayofweek, // day of the week
+                    weathername: weathername, // weather's name (for the condition and icon)
+                    temp: temp, // temp (converted prior to getting here)
+                    windspeed: windspeed, // wind speed (same as above)
+                    winddirection: winddirection, //wind direction (same as above)
+                };
+
+                if (!ExistingData) // if it doesn't exist, we add to our WeatherData array.
+                {
+                    WeatherData.push([Day]);
+                }
+            }
+            let output = document.getElementById("weatheroutput");
+            output.innerHTML = " ";
+            for (let i = 0; i < 5; i++) {
+                const Day = WeatherData[i];
+                output.innerHTML += `<td>
+                            <h5>${Day[0].day}</h5>
+                            <div id="weathericon">${WeatherIcon(Day[0].weathername)}</div>
+                            <h1 id="weathername">${Day[0].weathername}</h1>
+                            <p>${Day[0].temp}<br>Winds ${Day[0].winddirection} at ${Day[0].windspeed}.</p>
+                            `;
+            }
+        })
+        .catch((error) => {
+            console.error(error); // fetch doesn't work
+        });
+}
 function Location() // used to get the location and set latitude and longitude.
 {
         if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
@@ -94,7 +167,7 @@ export function WeatherUpdater()
     {
         const interval = setInterval(() =>
         {
-            Weather();
+            Weather(weather);
         }, 900000);
 
         return () => clearInterval(interval); // clear on page change
@@ -103,7 +176,7 @@ export function WeatherUpdater()
 
 export function ToggleMeasurements()
 {
-    Weather();
+    Weather(weather);
     return measurement === 'I' ? measurement = 'M' : measurement = 'I';
 }
 

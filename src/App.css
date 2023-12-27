@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,4 +104,42 @@
     background: #333333;
     border: 2px solid #FFF;
     border-radius: 5px;
+}
+
+.linkspan {
+    background: #000;
+    color: #FFF;
+    min-height: 5vh;
+    text-align: center;
+}
+
+.linkspan a 
+{
+    text-decoration: none;
+    color: #CCC;
+}
+
+.linkspan a:hover 
+{
+    text-decoration: none;
+    color: #FFF;
+}
+
+span 
+{
+    min-height: 5vh;
+}
+body 
+{
+    background: #000;
+    color: #FFF;
+}
+
+#weatheroutput #weathericon {
+    height: 25vmin;
+    font-size: 20vmin;
+}
+
+#weatheroutput h1 {
+    font-size: 3vmin;
 }

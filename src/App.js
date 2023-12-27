@@ -1,7 +1,14 @@
 ﻿import React from 'react';
 import './App.css';
-import { Weather, WeatherUpdater, ToggleMeasurements } from './Weather.js';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import Weather from "./pages/Weather";
+import Forecast from "./pages/Forecast";
+import NoPage from "./pages/NoPage";
 
+
+/*
 function App()
 {
     // add a timeout so it doesn't try to call the Weather function before the page is fully loaded.
@@ -20,4 +27,20 @@ function App()
   );
 }
 
+export default App;
+*/
+function App()
+{
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Weather />} />
+                    <Route path="/forecast" element={<Forecast />} />
+                    <Route path="*" element={<NoPage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
+ }
 export default App;
