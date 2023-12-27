@@ -16,7 +16,7 @@ const Forecast = () =>
                     </tbody>
                 </table>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={Weather("forecast")}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button id="refreshweather" onClick={() => Weather("forecast")}>Refresh</button> <button id="refreshweather" onClick={() => ToggleMeasurements("forecast")}>Toggle Imperial/Metric</button></span>
         </div>
     );
 };

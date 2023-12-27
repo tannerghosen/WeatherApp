@@ -1,9 +1,8 @@
-﻿import { useEffect } from 'react';
+﻿import { useEffect, useState } from 'react';
 // Config
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
 let measurement = config.measurement; // default measurement on page load, set in config.json. I = Imperial, M = Metric.
-let weather = "weather"; // default unless page is for the 5 day forecast
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
 let success = true; // used to determine if it succeeded in getting the location.
@@ -20,7 +19,8 @@ export function Weather(type)
                 fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
                     .then((response) => // we try to get a response
                     {
-                        if (response.ok) {
+                        if (response.ok)
+                        {
                             return response.json(); // we get the response in JSON
                         }
                         throw new Error('If you got this error, either the API is down or you do not have a valid API Key.\nURL: https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
@@ -77,7 +77,8 @@ function Forecast()
     fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
         .then((response) => // we try to get a response
         {
-            if (response.ok) {
+            if (response.ok)
+            {
                 return response.json(); // we get the response in JSON
             }
             throw new Error('If you got this error, either the API is down or you do not have a valid API Key.\nURL: https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
@@ -122,7 +123,8 @@ function Forecast()
             }
             let output = document.getElementById("weatheroutput");
             output.innerHTML = " ";
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 5; i++)
+            {
                 const Day = WeatherData[i];
                 output.innerHTML += `<td>
                             <h5>${Day[0].day}</h5>
@@ -132,7 +134,8 @@ function Forecast()
                             `;
             }
         })
-        .catch((error) => {
+        .catch((error) =>
+        {
             console.error(error); // fetch doesn't work
         });
 }
@@ -161,22 +164,22 @@ function Location() // used to get the location and set latitude and longitude.
         }
 }
 
-export function WeatherUpdater()
+export function WeatherUpdater(arg)
 {
     useEffect(() => // we use an useEffect hook to directly be able to update the DOM with new weather every 15 minutes.
     {
         const interval = setInterval(() =>
         {
-            Weather(weather);
+            Weather(arg);
         }, 900000);
 
         return () => clearInterval(interval); // clear on page change
     }, []);
 }
 
-export function ToggleMeasurements()
+export function ToggleMeasurements(arg)
 {
-    Weather(weather);
+    Weather(arg);
     return measurement === 'I' ? measurement = 'M' : measurement = 'I';
 }
 
