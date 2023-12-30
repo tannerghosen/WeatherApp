@@ -8,9 +8,18 @@ const Forecast = () =>
         <div className="App">
             <div className="App-header body">
                 <h3 id="hi">Please let your browser see your location! Otherwise this will not work!</h3>
-                <table>
+                <table id="weatherforecast">
                     <tbody>
-                    <tr id="weatheroutput">
+                    <tr id="day">
+
+                    </tr>
+                    <tr id="weathername">
+                        
+                    </tr>
+                    <tr id="weathericon">
+                        
+                    </tr>
+                    <tr id="weatherd">
                         
                     </tr>
                     </tbody>

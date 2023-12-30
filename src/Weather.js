@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useEffect } from 'react';
 // Config
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
@@ -121,17 +121,19 @@ function Forecast()
                     WeatherData.push([Day]);
                 }
             }
-            let output = document.getElementById("weatheroutput");
-            output.innerHTML = " ";
+            let day = document.getElementById("day");
+            let name = document.getElementById("weathername");
+            let icon = document.getElementById("weathericon");
+            let desc = document.getElementById("weatherd");
+            name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
             for (let i = 0; i < 5; i++)
             {
                 const Day = WeatherData[i];
-                output.innerHTML += `<td>
-                            <h5>${Day[0].day}</h5>
-                            <div id="weathericon">${WeatherIcon(Day[0].weathername)}</div>
-                            <h1 id="weathername">${Day[0].weathername}</h1>
-                            <p>${Day[0].temp}<br>Winds ${Day[0].winddirection} at ${Day[0].windspeed}.</p>
-                            `;
+                console.log(Day);
+                day.innerHTML += `<td><h5>${Day[0].day}</h5></td>`;
+                icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day[0].weathername)}</div></td>`;
+                name.innerHTML += `<td><h1 id="weathername">${Day[0].weathername}</h1></td>`;
+                desc.innerHTML += `<td><p>${Day[0].temp}<br>Winds ${Day[0].winddirection} at ${Day[0].windspeed}.</p></td>`;
             }
         })
         .catch((error) =>
