@@ -43,8 +43,6 @@ export function GetWeather(type)
 // Weather is called on the Weather Page once we're sure the Geolocation API was called via GetWeather.
 function Weather()
 {
-    useEffect(() =>
-    {
         fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
             .then((response) => // we try to get a response
             {
@@ -77,14 +75,11 @@ function Weather()
             {
                 console.error(error); // fetch doesn't work
             });
-    }, []);
 }
 
 // Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via GetWeather.
 function Forecast()
 {
-    useEffect(() =>
-    {
         fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
             .then((response) => // we try to get a response
             {
@@ -151,7 +146,6 @@ function Forecast()
             {
                 console.error(error); // fetch doesn't work
             });
-    },[]);
 }
 
 function Location() // used to get the location and set latitude and longitude.
