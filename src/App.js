@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import './App.css';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -29,8 +29,18 @@ function App()
 
 export default App;
 */
+
 function App()
 {
+    document.addEventListener("DOMContentLoaded", () =>
+    {
+        document.getElementById("weathericon").addEventListener("click", (event) =>
+        {
+            event.target.style.animation = "spin 1s linear";
+            setTimeout(() =>
+                event.target.style.animation = "", 1000);
+        })
+    });
     return (
         <BrowserRouter>
             <Routes>

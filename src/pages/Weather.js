@@ -1,8 +1,8 @@
-import { Weather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
+import { GetWeather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
 const weather = () =>
 {
     setTimeout(() =>
-        Weather(), 1000);
+        GetWeather(), 1000);
     WeatherUpdater();
     return (
         <div className="App">
@@ -11,7 +11,7 @@ const weather = () =>
                 <h1 id="weathername">Please let your browser see your location!</h1>
                 <div id="weatherdesc">Otherwise this will not work!</div>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={Weather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button id="refreshweather" onClick={GetWeather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements}>Toggle Imperial/Metric</button></span>
         </div>
     );
 };

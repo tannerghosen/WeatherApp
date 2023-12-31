@@ -1,8 +1,8 @@
-import { Weather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
+import { GetWeather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
 const Forecast = () =>
 {
     setTimeout(() =>
-        Weather("forecast"), 1000);
+        GetWeather("forecast"), 1000);
     WeatherUpdater("forecast");
     return (
         <div className="App">
@@ -25,7 +25,7 @@ const Forecast = () =>
                     </tbody>
                 </table>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={() => Weather("forecast")}>Refresh</button> <button id="refreshweather" onClick={() => ToggleMeasurements("forecast")}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button id="refreshweather" onClick={() => GetWeather("forecast")}>Refresh</button> <button id="refreshweather" onClick={() => ToggleMeasurements("forecast")}>Toggle Imperial/Metric</button></span>
         </div>
     );
 };
