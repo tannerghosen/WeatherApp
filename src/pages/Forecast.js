@@ -1,8 +1,11 @@
 import { GetWeather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
+import { Spin } from '../Effects.js';
 const Forecast = () =>
 {
-    setTimeout(() =>
-        GetWeather("forecast"), 1000);
+    setTimeout(() => {
+        GetWeather("forecast");
+        Spin();
+    }, 1000);
     WeatherUpdater("forecast");
     return (
         <div className="App">

@@ -32,15 +32,6 @@ export default App;
 
 function App()
 {
-    document.addEventListener("DOMContentLoaded", () =>
-    {
-        document.getElementById("weathericon").addEventListener("click", (event) =>
-        {
-            event.target.style.animation = "spin 1s linear";
-            setTimeout(() =>
-                event.target.style.animation = "", 1000);
-        })
-    });
     return (
         <BrowserRouter>
             <Routes>

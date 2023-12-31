@@ -140,8 +140,8 @@ td
 
 #weatherforecast #weathericon 
 {
-    height: 15vmin;
-    font-size: 10vmin;
+    height: 12.5vmin;
+    font-size: 7.5vmin;
 }
 
 #weatherforecast h1 
@@ -163,4 +163,9 @@ td
     to {
         transform: rotate(360deg);
     }
+}
+
+body 
+{
+    overflow: hidden
 }

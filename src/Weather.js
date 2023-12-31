@@ -122,7 +122,6 @@ function Forecast()
 
                     if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist and the data for that time is somewhere around 12 (or later if it's later in the day of current day), we add to our WeatherData array.
                     {
-                        console.warn("DEBUG: " + "Time (Hours/Minutes): " + date.getHours() + ":" + date.getMinutes() + " Other Data: "+ dayofweek + " " + weathername + " " + temp + " " + windspeed + " " + winddirection);
                         WeatherData.push([Day]);
                     }
                 }
