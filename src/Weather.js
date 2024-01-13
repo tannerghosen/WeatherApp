@@ -2,7 +2,12 @@
 // Config
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
-let measurement = config.measurement; // default measurement on page load, set in config.json. I = Imperial, M = Metric.
+const debug = config.debug; // debug flag, set in config.json
+if (!localStorage.getItem("measurement"))  // default measurement on first page load, set in config.json. I = Imperial, M = Metric.
+{
+    localStorage.setItem("measurement", config.measurement);
+}
+let measurement = localStorage.getItem("measurement"); // we use localstorage to set on page load what the user wants for measurement
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
 let success = true; // used to determine if it succeeded in getting the location.
@@ -50,6 +55,7 @@ function Weather()
                     return response.json(); // we get the response in JSON
                 }
                 throw new Error("If you got this error, either the API is down or you do not have a valid API Key.");
+                return false;
             })
             .then((data) => // we got a response, here's the data
             {
@@ -70,10 +76,12 @@ function Weather()
                 name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
 
                 desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
+                return true;
             })
             .catch((error) =>
             {
                 console.error(error); // fetch doesn't work
+                return false;
             });
 }
 
@@ -88,6 +96,7 @@ function Forecast()
                     return response.json(); // we get the response in JSON
                 }
                 throw new Error("If you got this error, either the API is down or you do not have a valid API Key.");
+                return false;
             })
             .then((data) => // we got a response, here's the data
             {
@@ -140,10 +149,12 @@ function Forecast()
                     name.innerHTML += `<td><h1 id="weathername">${Day[0].weathername}</h1></td>`;
                     desc.innerHTML += `<td><p>${Day[0].temp}<br>Winds ${Day[0].winddirection} at ${Day[0].windspeed}.</p></td>`;
                 }
+                return true;
             })
             .catch((error) =>
             {
                 console.error(error); // fetch doesn't work
+                return false;
             });
 }
 
@@ -188,7 +199,8 @@ export function WeatherUpdater(arg)
 export function ToggleMeasurements(arg)
 {
     GetWeather(arg);
-    return measurement === 'I' ? measurement = 'M' : measurement = 'I';
+    measurement === 'I' ? measurement = 'M' : measurement = 'I';
+    localStorage.setItem("measurement", measurement);
 }
 
 // Converts wind degrees 
@@ -282,4 +294,9 @@ function WeatherIcon(weathername)
             return "❓";
             break;
     }
+}
+
+if (debug) // if debug is true, we want to export extra functions for testing.
+{
+    module.exports = { Weather, Forecast, Location }
 }

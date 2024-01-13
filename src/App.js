@@ -7,7 +7,6 @@ import Weather from "./pages/Weather";
 import Forecast from "./pages/Forecast";
 import NoPage from "./pages/NoPage";
 
-
 /*
 function App()
 {
