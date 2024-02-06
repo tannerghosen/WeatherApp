@@ -3,11 +3,11 @@
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
 const debug = config.debug; // debug flag, set in config.json
-if (!localStorage.getItem("measurement"))  // default measurement on first page load, set in config.json. I = Imperial, M = Metric.
+if (!localStorage.getItem("measurement")) // default measurement on first page load, set in config.json. I = Imperial, M = Metric.{
 {
     localStorage.setItem("measurement", config.measurement);
 }
-let measurement = localStorage.getItem("measurement"); // we use localstorage to set on page load what the user wants for measurement
+let measurement = localStorage.getItem("measurement");
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
 let success = true; // used to determine if it succeeded in getting the location.
@@ -17,7 +17,8 @@ export function GetWeather(type)
 {
     if (lat !== "" && lon !== "")
     {
-        switch (type) {
+        switch (type)
+        {
             default:
             case "weather":
                 // Weather Page
@@ -34,12 +35,12 @@ export function GetWeather(type)
     {
         if (location === false) // geolocation api wasn't called yet ?
         {
-            Location() // better call geolocating saul
+            Location(); // better call geolocating saul
             location = true; // it has been called, no need to call it again (unless it fails)
         }
         else if (success === false) // geolocation api didn't succeed?
         {
-            Location() // try again.
+            Location(); // try again.
         }
         setTimeout(() => GetWeather(type), 10000); // let's wait 10 seconds and call the function again.
     }
@@ -107,7 +108,7 @@ function Forecast()
                 const WeatherData = [];
                 for (let i = 0; i < list.length; i++)
                 {
-                    // get the day, main (which is where we getr temp), weather, and wind speed/dir from the current data row.
+                    // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
                     const { dt, main, weather, wind } = list[i];
 
                     let date = new Date(dt * 1000);
@@ -129,10 +130,12 @@ function Forecast()
                         winddirection: winddirection, //wind direction (same as above)
                     };
 
-                    if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist and the data for that time is somewhere around 12 (or later if it's later in the day of current day), we add to our WeatherData array.
+                    if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist and the data for that time is somewhere around 12 (or later if it's later in the day of current day)
                     {
-                        WeatherData.push([Day]);
+                        WeatherData.push([Day]); // we add to our WeatherData array.
                     }
+                    // Why do I want 12 or later? 
+                    // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
                 }
                 // get individual rows we'll be outputting into
                 let day = document.getElementById("day");
@@ -141,9 +144,10 @@ function Forecast()
                 let desc = document.getElementById("weatherd");
                 // if they were used previously we want to clear them of anything in there
                 name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
-                for (let i = 0; i < 5; i++)
+                for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
                 {
                     const Day = WeatherData[i];
+                    // We access the Day object at [0], because that's the only Day object for that individual day.
                     day.innerHTML += `<td><h5>${Day[0].day}</h5></td>`;
                     icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day[0].weathername)}</div></td>`;
                     name.innerHTML += `<td><h1 id="weathername">${Day[0].weathername}</h1></td>`;
@@ -167,12 +171,12 @@ function Location() // used to get the location and set latitude and longitude.
                 {
                     lat = position.coords.latitude; // set lat and lon to the coords we got.
                     lon = position.coords.longitude;
-                    success = true;
+                    success = true; // we got the location, success.
                 },
                 (error) => // geolocator doesn't work
                 {
                     console.error(error);
-                    success = false;
+                    success = false; // set it to false so we get called again to get the location.
                 }
             );
         }
@@ -198,13 +202,12 @@ export function WeatherUpdater(arg)
 
 export function ToggleMeasurements(arg)
 {
-    GetWeather(arg);
     measurement === 'I' ? measurement = 'M' : measurement = 'I';
     localStorage.setItem("measurement", measurement);
 }
 
 // Converts wind degrees 
-function WindDirection(degree)
+export function WindDirection(degree)
 {
     // directions are clockwise as that's how degrees also go, in a clockwise fashion
     var directions = ["North", "North East", "East", "South East", "South", "South West", "West", "North West"];
@@ -213,7 +216,7 @@ function WindDirection(degree)
 }
 
 // Converts wind speed
-function WindSpeedConverter(speed)
+export function WindSpeedConverter(speed)
 {
     switch (measurement)
     {
@@ -229,7 +232,7 @@ function WindSpeedConverter(speed)
 }
 
 // Converts temp
-function TempConverter(temp)
+export function TempConverter(temp)
 {
     switch (measurement)
     {
@@ -245,7 +248,7 @@ function TempConverter(temp)
 }
 
 // Determines weather icon to display depending on weathername
-function WeatherIcon(weathername)
+export function WeatherIcon(weathername)
 {
     switch (weathername)
     {
@@ -294,9 +297,4 @@ function WeatherIcon(weathername)
             return "❓";
             break;
     }
-}
-
-if (debug) // if debug is true, we want to export extra functions for testing.
-{
-    module.exports = { Weather, Forecast, Location }
 }

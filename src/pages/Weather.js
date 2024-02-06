@@ -10,12 +10,12 @@ const weather = () =>
     WeatherUpdater();
     return (
         <div className="App">
-            <div className="App-header body">
+            <div className="body">
                 <div id="weathericon"></div>
                 <h1 id="weathername">Please let your browser see your location!</h1>
                 <div id="weatherdesc">Otherwise this will not work!</div>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={GetWeather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button id="refreshweather" onClick={GetWeather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements, GetWeather}>Toggle Imperial/Metric</button></span>
         </div>
     );
 };

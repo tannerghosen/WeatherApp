@@ -1,36 +1,18 @@
 .App 
 {
-  text-align: center;
+    text-align: center;
 }
 
-.App-logo 
-{
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header
-{
-  background-color: #282c34;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(5.5px + 2vmin);
-  color: white;
-}
-
-.App-link 
-{
-  color: #61dafb;
-}
-
-
-.body
+.App .body
 {
     background: #000;
     color: #FFF;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(5.5px + 2vmin);
 }
 
 .severe
@@ -96,7 +78,8 @@
     border-radius: 5px;
 }
 
-.linkspan {
+.linkspan 
+{
     background: #000;
     color: #FFF;
     min-height: 5vh;
@@ -156,11 +139,13 @@ td
 
 @keyframes spin
 {
-    from {
+    from 
+    {
         transform: rotate(0deg);
     }
 
-    to {
+    to 
+    {
         transform: rotate(360deg);
     }
 }
@@ -168,4 +153,13 @@ td
 body 
 {
     overflow: hidden
+}
+
+dialog 
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }

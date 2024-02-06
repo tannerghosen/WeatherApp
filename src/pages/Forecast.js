@@ -9,7 +9,7 @@ const Forecast = () =>
     WeatherUpdater("forecast");
     return (
         <div className="App">
-            <div className="App-header body">
+            <div className="body">
                 <h3 id="hi">Please let your browser see your location! Otherwise this will not work!</h3>
                 <table id="weatherforecast">
                     <tbody>
@@ -28,7 +28,7 @@ const Forecast = () =>
                     </tbody>
                 </table>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={() => GetWeather("forecast")}>Refresh</button> <button id="refreshweather" onClick={() => ToggleMeasurements("forecast")}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button id="refreshweather" onClick={() => GetWeather("forecast")}>Refresh</button> <button id="refreshweather" onClick={() => { ToggleMeasurements("forecast"); GetWeather("forecast") } }>Toggle Imperial/Metric</button></span>
         </div>
     );
 };

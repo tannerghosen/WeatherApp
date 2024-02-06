@@ -1,6 +1,6 @@
 const NoPage = () => {
     <div className="App">
-        <div className="App-header body">
+        <div className="body">
             <h1>Error</h1>
             <p>This page does not exist.</p>
         </div>
