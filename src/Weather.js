@@ -3,17 +3,16 @@
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
 const debug = config.debug; // debug flag, set in config.json
-if (!localStorage.getItem("measurement")) // default measurement on first page load, set in config.json. I = Imperial, M = Metric.{
+if (!localStorage.getItem("measurement")) // default measurement on first page load, set in config.json. I = Imperial, M = Metric.
 {
     localStorage.setItem("measurement", config.measurement);
 }
-let measurement = localStorage.getItem("measurement");
+let measurement = localStorage.getItem("measurement"); // we use localstorage to load the measurement. 
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
-let success = true; // used to determine if it succeeded in getting the location.
 
 // Weather function, splits off into Forecast if we're on the 5 Day Forecast Page
-export function GetWeather(type)
+export async function GetWeather(type)
 {
     if (lat !== "" && lon !== "")
     {
@@ -33,16 +32,11 @@ export function GetWeather(type)
     }
     else // if lat and lon aren't set, geolocation api hasn't finished running / hasn't been called yet
     {
-        if (location === false) // geolocation api wasn't called yet ?
+        if (location === false) // geolocation api wasn't called yet or failed?
         {
-            Location(); // better call geolocating saul
-            location = true; // it has been called, no need to call it again (unless it fails)
+            await Location(); // better call geolocating saul
         }
-        else if (success === false) // geolocation api didn't succeed?
-        {
-            Location(); // try again.
-        }
-        setTimeout(() => GetWeather(type), 10000); // let's wait 10 seconds and call the function again.
+        setTimeout(() => GetWeather(type), 1000); // let's wait 1 second and call the function again.
     }
 }
 
@@ -162,8 +156,9 @@ function Forecast()
             });
 }
 
-function Location() // used to get the location and set latitude and longitude.
+async function Location() // used to get the location and set latitude and longitude.
 {
+    return new Promise((resolve, reject) => {
         if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
         {
             navigator.geolocation.getCurrentPosition(
@@ -171,20 +166,23 @@ function Location() // used to get the location and set latitude and longitude.
                 {
                     lat = position.coords.latitude; // set lat and lon to the coords we got.
                     lon = position.coords.longitude;
-                    success = true; // we got the location, success.
+                    location = true; // we got the location, success.
+                    resolve(); // we fufilled our promise
                 },
                 (error) => // geolocator doesn't work
                 {
                     console.error(error);
-                    success = false; // set it to false so we get called again to get the location.
+                    location = false; // set it to false so we get called again to get the location.
+                    reject(error); // reject
                 }
             );
         }
         else
         {
-            throw new Error("Geolocation API is not supported by this browser or is disabled by user choice.");
-            success = false;
+            reject(new Error("Geolocation API is not supported by this browser or is disabled by user choice.")); // reject
+            location = false; 
         }
+    });
 }
 
 export function WeatherUpdater(arg)
