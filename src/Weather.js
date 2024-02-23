@@ -98,9 +98,9 @@ function Forecast()
                 let hi = document.getElementById("hi");
                 let city = data.city.name;
                 hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
-                const { list/*, city*/ } = data;
-                const WeatherData = [];
-                for (let i = 0; i < list.length; i++)
+                const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
+                const WeatherData = []; // contains our 5 days once the for loop below is done
+                for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results.
                 {
                     // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
                     const { dt, main, weather, wind } = list[i];
@@ -112,24 +112,27 @@ function Forecast()
                     let windspeed = WindSpeedConverter(wind.speed);
                     let winddirection = WindDirection(wind.deg);
 
-                    // Check if data for this day exists already in the WeatherData array, to prevent duplicates.
-                    const ExistingData = WeatherData.find((data) => data[0]?.day === dayofweek);
-                    // Make Day Object which will be pushed to our WeatherData Array
-                    const Day =
-                    {
-                        day: dayofweek, // day of the week
-                        weathername: weathername, // weather's name (for the condition and icon)
-                        temp: temp, // temp (converted prior to getting here)
-                        windspeed: windspeed, // wind speed (same as above)
-                        winddirection: winddirection, //wind direction (same as above)
-                    };
 
-                    if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist and the data for that time is somewhere around 12 (or later if it's later in the day of current day)
+                    // Check if data for this day exists already in the WeatherData array
+                    const ExistingData = WeatherData.find((data) => data[0]?.day === dayofweek);
+                    if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist in our WeatherData array and the time is greater than 12, continue
                     {
+                        console.log(dayofweek + ": " + wind.deg);
+                        console.log(Math.round(((357 % 360) / 45) % 8));
+                        // Make Day Object which will be pushed to our WeatherData Array
+                        const Day =
+                        {
+                            day: dayofweek, // day of the week
+                            weathername: weathername, // weather's name (for the condition and icon)
+                            temp: temp, // temp (converted prior to getting here)
+                            windspeed: windspeed, // wind speed (same as above)
+                            winddirection: winddirection, //wind direction (same as above)
+                        };
+
                         WeatherData.push([Day]); // we add to our WeatherData array.
+                        // Why do I want 12 or later?
+                        // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
                     }
-                    // Why do I want 12 or later? 
-                    // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
                 }
                 // get individual rows we'll be outputting into
                 let day = document.getElementById("day");
@@ -158,28 +161,29 @@ function Forecast()
 
 async function Location() // used to get the location and set latitude and longitude.
 {
-    return new Promise((resolve, reject) => {
+    return new Promise((success, fail) => // make a promise
+    {
         if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
         {
-            navigator.geolocation.getCurrentPosition(
+            navigator.geolocation.getCurrentPosition( // using navigator.geolocation.getCurrentPosition function...
                 (position) => // we get their position
                 {
                     lat = position.coords.latitude; // set lat and lon to the coords we got.
                     lon = position.coords.longitude;
-                    location = true; // we got the location, success.
-                    resolve(); // we fufilled our promise
+                    location = true; // we got the location
+                    success(); // we fufilled our promise, success
                 },
                 (error) => // geolocator doesn't work
                 {
                     console.error(error);
                     location = false; // set it to false so we get called again to get the location.
-                    reject(error); // reject
+                    fail(error); // failed
                 }
             );
         }
         else
         {
-            reject(new Error("Geolocation API is not supported by this browser or is disabled by user choice.")); // reject
+            fail(new Error("Geolocation API is not supported by this browser or is disabled by user choice.")); // failed
             location = false; 
         }
     });
@@ -200,6 +204,7 @@ export function WeatherUpdater(arg)
 
 export function ToggleMeasurements(arg)
 {
+    // if measurement is I, set it to M, otherwise set it to I
     measurement === 'I' ? measurement = 'M' : measurement = 'I';
     localStorage.setItem("measurement", measurement);
 }
@@ -210,6 +215,7 @@ export function WindDirection(degree)
     // directions are clockwise as that's how degrees also go, in a clockwise fashion
     var directions = ["North", "North East", "East", "South East", "South", "South West", "West", "North West"];
     let i = Math.round(((degree % 360) / 45) % 8);
+    i = i === 8 ? 0 : i; // if i is 8, it should point to North then, so set it to 0.
     return directions[i];
 }
 
@@ -283,7 +289,7 @@ export function WeatherIcon(weathername)
         case 'Ash':
         case 'Sand':
         case 'Smoke':
-            return "🌁";
+            return "🌫️";
             break;
         case 'Tornado':
             return "🌪️";

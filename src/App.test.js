@@ -45,5 +45,5 @@ import { ToggleMeasurements, TempConverter, WindSpeedConverter, WindDirection, W
     test('Weather Icon Test', () =>
     {
         expect(WeatherIcon("asdasda")).toBe("❓");
-        expect(WeatherIcon("Fog")).toBe("🌁");
+        expect(WeatherIcon("Fog")).toBe("🌫️");
     });
