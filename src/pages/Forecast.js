@@ -10,7 +10,7 @@ const Forecast = () =>
     return (
         <div className="App">
             <div className="body">
-                <h3 id="hi">Please let your browser see your location! Otherwise this will not work!</h3>
+                <h3 id="hi">Loading...</h3>
                 <table id="weatherforecast">
                     <tbody>
                     <tr id="day">

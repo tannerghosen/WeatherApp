@@ -1,2 +1,4 @@
 C:\Users\Tanner Ghosen\Documents\My Code\Visual Studio\WeatherApp\obj\Debug\weatherapp.esproj.SuggestedBindingRedirects.cache
 C:\Users\Tanner Ghosen\Documents\My Code\Visual Studio\WeatherApp\obj\Debug\weatherapp.esproj.CoreCompileInputs.cache
+C:\Users\Tanner Ghosen\Documents\My Code\Visual Studio\WeatherApp - Copy\obj\Debug\weatherapp.esproj.SuggestedBindingRedirects.cache
+C:\Users\Tanner Ghosen\Documents\My Code\Visual Studio\WeatherApp - Copy\obj\Debug\weatherapp.esproj.CoreCompileInputs.cache

@@ -11,6 +11,9 @@ let measurement = localStorage.getItem("measurement"); // we use localstorage to
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
 
+// Error-related things
+const [errortitle, errormessage, erroricon] = ["An error has occured.", "Please try again later. If this occurs often, report the error below.<br>Error: ", "❌"]
+
 // Weather function, splits off into Forecast if we're on the 5 Day Forecast Page
 export async function GetWeather(type)
 {
@@ -43,21 +46,21 @@ export async function GetWeather(type)
 // Weather is called on the Weather Page once we're sure the Geolocation API was called via GetWeather.
 function Weather()
 {
+        let name = document.getElementById("weathername");
+        let desc = document.getElementById("weatherdesc");
+        let icon = document.getElementById("weathericon");
         fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
             .then((response) => // we try to get a response
             {
-                if (response.ok) {
+                if (response.ok)
+                {
                     return response.json(); // we get the response in JSON
                 }
-                throw new Error("If you got this error, either the API is down or you do not have a valid API Key.");
                 return false;
             })
             .then((data) => // we got a response, here's the data
             {
                 // get the elements that need changing later on
-                let name = document.getElementById("weathername");
-                let desc = document.getElementById("weatherdesc");
-                let icon = document.getElementById("weathericon");
                 // This is based on the structure of the JSON response openweathermap gives us.
                 let weathername = data.weather[0].main;
                 let weatherdesc = data.weather[0].description;
@@ -75,14 +78,23 @@ function Weather()
             })
             .catch((error) =>
             {
+                name.innerHTML = errortitle;
+                desc.innerHTML = errormessage + error;
+                icon.innerHTML = erroricon;
                 console.error(error); // fetch doesn't work
                 return false;
+
             });
 }
 
 // Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via GetWeather.
 function Forecast()
 {
+        let day = document.getElementById("day");
+        let name = document.getElementById("weathername");
+        let icon = document.getElementById("weathericon");
+        let desc = document.getElementById("weatherd");
+        let hi = document.getElementById("hi");
         fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apikey) // use fetch to fetch data from the API about the weather conds in the user's area
             .then((response) => // we try to get a response
             {
@@ -90,12 +102,10 @@ function Forecast()
                 {
                     return response.json(); // we get the response in JSON
                 }
-                throw new Error("If you got this error, either the API is down or you do not have a valid API Key.");
                 return false;
             })
             .then((data) => // we got a response, here's the data
             {
-                let hi = document.getElementById("hi");
                 let city = data.city.name;
                 hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
                 const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
@@ -117,8 +127,6 @@ function Forecast()
                     const ExistingData = WeatherData.find((data) => data[0]?.day === dayofweek);
                     if (!ExistingData && (date.getHours() >= 12)) // if it doesn't exist in our WeatherData array and the time is greater than 12, continue
                     {
-                        console.log(dayofweek + ": " + wind.deg);
-                        console.log(Math.round(((357 % 360) / 45) % 8));
                         // Make Day Object which will be pushed to our WeatherData Array
                         const Day =
                         {
@@ -134,11 +142,6 @@ function Forecast()
                         // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
                     }
                 }
-                // get individual rows we'll be outputting into
-                let day = document.getElementById("day");
-                let name = document.getElementById("weathername");
-                let icon = document.getElementById("weathericon");
-                let desc = document.getElementById("weatherd");
                 // if they were used previously we want to clear them of anything in there
                 name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
                 for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
@@ -154,6 +157,10 @@ function Forecast()
             })
             .catch((error) =>
             {
+                name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
+                hi.innerHTML = errortitle;
+                desc.innerHTML = "<td><p>" + errormessage + error + "</p></td>";
+                icon.innerHTML = "<td><div id='weathericon'>" + erroricon + "</div></td>";
                 console.error(error); // fetch doesn't work
                 return false;
             });
@@ -161,29 +168,49 @@ function Forecast()
 
 async function Location() // used to get the location and set latitude and longitude.
 {
+    let day = document.getElementById("day");
+    let name = document.getElementById("weathername");
+    let icon = document.getElementById("weathericon");
+    let descb = document.getElementById("weatherd");
+    let desc = document.getElementById("weatherdesc");
+    let hi = document.getElementById("hi");
     return new Promise((success, fail) => // make a promise
     {
         if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
         {
-            navigator.geolocation.getCurrentPosition( // using navigator.geolocation.getCurrentPosition function...
-                (position) => // we get their position
-                {
-                    lat = position.coords.latitude; // set lat and lon to the coords we got.
-                    lon = position.coords.longitude;
-                    location = true; // we got the location
-                    success(); // we fufilled our promise, success
-                },
-                (error) => // geolocator doesn't work
-                {
-                    console.error(error);
-                    location = false; // set it to false so we get called again to get the location.
-                    fail(error); // failed
-                }
-            );
+                navigator.geolocation.getCurrentPosition( // using navigator.geolocation.getCurrentPosition function...
+                    (position) => // we get their position
+                    {
+                        lat = position.coords.latitude; // set lat and lon to the coords we got.
+                        lon = position.coords.longitude;
+                        location = true; // we got the location
+                        success(); // we fufilled our promise, success
+                    },
+                    (error) => // geolocator doesn't work
+                    {
+
+                        console.error(error);
+                        if (hi != null && descb != null)
+                        {
+                            name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
+                            hi.innerHTML = errortitle;
+                            desc.innerHTML = "<td><p>" + errormessage + error + "</p></td>";
+                            icon.innerHTML = "<td><div id='weathericon'>" + erroricon + "</div></td>";
+                        }
+                        else
+                        {
+                            name.innerHTML = errortitle;
+                            desc.innerHTML = errormessage + error;
+                            icon.innerHTML = erroricon;
+                        }
+                        location = false; // set it to false so we get called again to get the location.
+                        fail(error); // failed
+                    }
+                );
         }
         else
         {
-            fail(new Error("Geolocation API is not supported by this browser or is disabled by user choice.")); // failed
+            fail("Blocked / not supported"); // failed
             location = false; 
         }
     });

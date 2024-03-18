@@ -5,9 +5,8 @@ const Layout = () => {
         <>
             <Outlet />
             <div className="linkspan">
-                <b>Pages</b>
             <br></br>
-            <span width="100%"><Link to="/">Weather</Link> <Link to="/Forecast">5 Day Forecast</Link></span>
+                <span width="100%"><button className="links"><Link to="/">Weather</Link></button> <button className="links"><Link to="/Forecast">5 Day Forecast</Link></button></span>
             </div>
         </>
     )

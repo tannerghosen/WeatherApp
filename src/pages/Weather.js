@@ -12,8 +12,8 @@ const weather = () =>
         <div className="App">
             <div className="body">
                 <div id="weathericon"></div>
-                <h1 id="weathername">Please let your browser see your location!</h1>
-                <div id="weatherdesc">Otherwise this will not work!</div>
+                <h1 id="weathername">Loading...</h1>
+                <div id="weatherdesc">Please wait.</div>
             </div>
             <span width="100%"><button id="refreshweather" onClick={GetWeather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements, GetWeather}>Toggle Imperial/Metric</button></span>
         </div>
