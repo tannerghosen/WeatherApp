@@ -15,7 +15,7 @@ const weather = () =>
                 <h1 id="weathername">Loading...</h1>
                 <div id="weatherdesc">Please wait.</div>
             </div>
-            <span width="100%"><button id="refreshweather" onClick={GetWeather}>Refresh</button> <button id="refreshweather" onClick={ToggleMeasurements, GetWeather}>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button className="settingbutton" onClick={GetWeather}>Refresh</button> <button className="settingbutton" onClick={ToggleMeasurements, GetWeather}>Toggle Imperial/Metric</button></span>
         </div>
     );
 };

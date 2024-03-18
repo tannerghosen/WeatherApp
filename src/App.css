@@ -15,42 +15,10 @@
     font-size: calc(5.5px + 2vmin);
 }
 
-.severe
-{
-}
-
-.warning
-{
-}
-
-.tstorm 
-{
-}
-
-.rain 
-{
-}
-
-.snow
-{
-}
-
-.sunny 
-{
-}
-
-.cloudy 
-{
-}
-
-.fog
-{
-}
-
 #weathericon 
 {
-    height: 50vmin;
-    font-size: 40vmin;
+    height: 50vh;
+    font-size: 40vh;
 }
 
 #weatherdesc 
@@ -62,7 +30,7 @@
     border-radius: 5px;
 }
 
-#refreshweather 
+.settingbutton
 {
     color: #FFF;
     background: #151515;
@@ -70,12 +38,9 @@
     border-radius: 5px;
 }
 
-#refreshweather:hover
+.settingbutton:hover
 {
-    color: #FFF;
     background: #333333;
-    border: 2px solid #FFF;
-    border-radius: 5px;
 }
 
 .linkspan 
@@ -171,17 +136,21 @@ dialog
     border: 3px solid #FFF;
     border-radius: 8px;
     font-size: 16px;
+    /*transition: all 0.2s ease-out;*/
 }
 
 .links:hover
 {
-    color: #FFF;
     background: #333333;
-    border: 3px solid #FFF;
-    border-radius: 5px;
+    /*font-size: 1.15vw;*/
 }
 
 #webpack-dev-server-client-overlay /* This disables the error overlay, should leave it enabled in dev. */
 {
     display: none;
+}
+
+#weatherd 
+{
+    vertical-align: top;
 }
