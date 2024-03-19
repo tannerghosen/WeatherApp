@@ -39,10 +39,11 @@ export async function GetWeather(type)
         {
             await Location(); // better call geolocating saul
         }
-        setTimeout(() => GetWeather(type), 5000); // let's wait 1 second and call the function again.
+        setTimeout(() => GetWeather(type), 5000); // let's wait 5 seconds and call the function again.
     }
 }
 
+// Error function, handles displaying an error to the screen.
 function Error(error)
 {
     let day = document.getElementById("day");
@@ -68,7 +69,8 @@ function Error(error)
     }
 }
 
-async function Location() // used to get the location and set latitude and longitude.
+// used to get the location and set latitude and longitude.
+async function Location()
 {
     if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
     {
@@ -95,10 +97,10 @@ async function Location() // used to get the location and set latitude and longi
     }
 }
 
+// Fetch fetches data from the API about the weather conditions in the user's area, with 2 types: weather and forecast.
 async function Fetch(type)
 {
     //console.log("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
-    // use fetch to fetch data from the API about the weather conds in the user's area
     return fetch("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey)
         .then((response) =>
         {
@@ -127,7 +129,8 @@ async function Fetch(type)
 // Weather is called on the Weather Page once we're sure the Geolocation API was called via GetWeather.
 async function Weather()
 {
-        let data = await Fetch("weather");
+        let data = await Fetch("weather"); // await a response from our Fetch function for weather
+
         let name = document.getElementById("weathername");
         let desc = document.getElementById("weatherdesc");
         let icon = document.getElementById("weathericon");
@@ -140,6 +143,7 @@ async function Weather()
         let temp = TempConverter(data.main.temp); // temp is in Kelvin
         let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
         let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
+
         icon.innerHTML = WeatherIcon(weathername);
         name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
         desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
@@ -148,12 +152,14 @@ async function Weather()
 // Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via GetWeather.
 async function Forecast()
 {
-        let data = await Fetch("forecast");
+        let data = await Fetch("forecast");// await a response from our Fetch function for forecast
+
         let day = document.getElementById("day");
         let name = document.getElementById("weathername");
         let icon = document.getElementById("weathericon");
         let desc = document.getElementById("weatherd");
         let hi = document.getElementById("hi");
+
         let city = data.city.name;
         hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
         const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
@@ -171,7 +177,7 @@ async function Forecast()
             let winddirection = WindDirection(wind.deg);
 
             // Check if data for this day exists already in the Weather array
-            // We use a optional chaining operator (?) to prevent undefined / null errors if the property doesn't exist
+            // We use a optional chaining operator (?) to prevent a fatal error if the property doesn't exist.
             const doesitexist = Weather.find((data) => data[0]?.day === dayofweek);
             if (!doesitexist && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
             {
