@@ -37,9 +37,15 @@ export async function GetWeather(type)
     {
         if (location === false) // geolocation api wasn't called yet or failed?
         {
+            // we use awaits to ensure Location runs so it gets a chance to potential set lat/lon
             await Location(); // better call geolocating saul
+            await new Promise(resolve => setTimeout(resolve, 5000)); // wait 5 seconds
+            await GetWeather(type); // call GetWeather again
         }
-        setTimeout(() => GetWeather(type), 5000); // let's wait 5 seconds and call the function again.
+        else if (location === true)
+        {
+            GetWeather(type);
+        }
     }
 }
 
@@ -83,8 +89,14 @@ async function Location()
             },
             (error) => // geolocator doesn't work
             {
-                console.error(error);
-                Error("Geolocation API error. It either failed, was blocked, or isn't supported.");
+                if (error.code === error.NETWORK_ERROR)
+                {
+                    Error("Network Error. Your internet connection is likely down.");
+                }
+                else if (error.code === error.TIMEOUT)
+                {
+                    Error("Network Error. The request for Geolocation API timed out.");
+                }
                 location = false; // set it to false so we get called again to get the location.
             }
         );
@@ -110,7 +122,7 @@ async function Fetch(type)
             }
             else
             {
-                Error("Fetch error. Either the API or your internet is down, or the API Key is invalid.");
+                Error("Fetch error. Either the API is down, or the API Key is invalid.");
                 return false;
             }
         })
@@ -120,7 +132,7 @@ async function Fetch(type)
         })
         .catch((error) =>
         {
-            Error(error);
+            Error("Network Error. Your internet connection is likely down.");
             console.error(error);
             return false;
         });
