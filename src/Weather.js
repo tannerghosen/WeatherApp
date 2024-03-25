@@ -89,6 +89,7 @@ async function Location()
             },
             (error) => // geolocator doesn't work
             {
+                console.error(error);
                 if (error.code === error.NETWORK_ERROR)
                 {
                     Error("Network Error. Your internet connection is likely down.");
@@ -96,6 +97,10 @@ async function Location()
                 else if (error.code === error.TIMEOUT)
                 {
                     Error("Network Error. The request for Geolocation API timed out.");
+                }
+                else
+                {
+                    Error(error.code);
                 }
                 location = false; // set it to false so we get called again to get the location.
             }
