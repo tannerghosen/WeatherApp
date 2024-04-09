@@ -1,6 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 
-const Layout = () => {
+const Layout = () =>
+{
     return (
         <>
             <Outlet />

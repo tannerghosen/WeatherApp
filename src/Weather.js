@@ -14,7 +14,9 @@ let location = false; // used to determine if we've tried to get the location ye
 // Error-related things
 const [errortitle, errormessage, erroricon] = ["An error has occured.", "Please try again later. If this occurs often, report the error below.<br>Error: ", "❌"]
 
-// Weather function, splits off into Forecast if we're on the 5 Day Forecast Page
+// GetWeather function, which calls the respective function for either Weather or Forecast
+// so long as lat and lon are set, otherwise we call Location to set them and then call GetWeather
+// again after a short period of time
 export async function GetWeather(type)
 {
     if (lat !== "" && lon !== "") // if lat and lon isn't empty
@@ -100,7 +102,7 @@ async function Location()
                 }
                 else
                 {
-                    Error(error.code);
+                    Error("Network Error. " + error.code);
                 }
                 location = false; // set it to false so we get called again to get the location.
             }
@@ -226,6 +228,7 @@ async function Forecast()
         }
 }
 
+// Auto-updates Weather after 15 minutes
 export function WeatherUpdater(arg)
 {
     useEffect(() => // we use an useEffect hook to directly be able to update the DOM with new weather every 15 minutes.
@@ -239,7 +242,8 @@ export function WeatherUpdater(arg)
     }, []);
 }
 
-export function ToggleMeasurements(arg)
+// Toggle Measurements between Imperial and Metric
+export function ToggleMeasurements()
 {
     // if measurement is I, set it to M, otherwise set it to I
     measurement === 'I' ? measurement = 'M' : measurement = 'I';
@@ -256,7 +260,7 @@ export function WindDirection(degree)
     return directions[i];
 }
 
-// Converts wind speed
+// Converts wind speed we're given
 export function WindSpeedConverter(speed)
 {
     switch (measurement)
@@ -272,7 +276,7 @@ export function WindSpeedConverter(speed)
     return speed;
 }
 
-// Converts temp
+// Converts temp we're given
 export function TempConverter(temp)
 {
     switch (measurement)

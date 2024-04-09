@@ -1,4 +1,5 @@
-const NoPage = () => {
+const NoPage = () =>
+{
     <div className="App">
         <div className="body">
             <h1>Error</h1>

@@ -2,7 +2,8 @@ import { GetWeather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
 import { Spin } from '../Effects.js';
 const Forecast = () =>
 {
-    setTimeout(() => {
+    setTimeout(() =>
+    {
         GetWeather("forecast");
         Spin();
     }, 1000);
@@ -28,7 +29,7 @@ const Forecast = () =>
                     </tbody>
                 </table>
             </div>
-            <span width="100%"><button className="settingbutton" onClick={() => GetWeather("forecast")}>Refresh</button> <button className="settingbutton" onClick={() => { ToggleMeasurements("forecast"); GetWeather("forecast") } }>Toggle Imperial/Metric</button></span>
+            <span width="100%"><button className="settingbutton" onClick={() => GetWeather("forecast")}>Refresh</button> <button className="settingbutton" onClick={() => { ToggleMeasurements(); GetWeather("forecast") } }>Toggle Imperial/Metric</button></span>
         </div>
     );
 };
