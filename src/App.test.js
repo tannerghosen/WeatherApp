@@ -12,6 +12,9 @@ import { ToggleMeasurements, TempConverter, WindSpeedConverter, WindDirection, W
         expect(linkElement).toBeInTheDocument();
     });*/
 
+// These tests do not use Jest-DOM per say, but rather Jest, as we have nothing to test with the React stuff itself, just functions.
+// Jest-DOM may be utilized down the line to ensure functions related to getting weather works, however we do have error handlers in those
+// functions to ensure if there is a fault it's reported due to their nature.
     test('Dummy Test', () =>
     {
         expect(2 + 2).toBe(4);

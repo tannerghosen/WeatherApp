@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { Error } from "./Error.js"; // Error Handling
 // Config
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
@@ -10,9 +11,6 @@ if (!localStorage.getItem("measurement")) // default measurement on first page l
 let measurement = localStorage.getItem("measurement"); // we use localstorage to load the measurement. 
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
-
-// Error-related things
-const [errortitle, errormessage, erroricon] = ["An error has occured.", "Please try again later. If this occurs often, report the error below.<br>Error: ", "❌"]
 
 // GetWeather function, which calls the respective function for either Weather or Forecast
 // so long as lat and lon are set, otherwise we call Location to set them and then call GetWeather
@@ -48,32 +46,6 @@ export async function GetWeather(type)
         {
             GetWeather(type);
         }
-    }
-}
-
-// Error function, handles displaying an error to the screen.
-function Error(error)
-{
-    let day = document.getElementById("day");
-    let name = document.getElementById("weathername");
-    let icon = document.getElementById("weathericon");
-    let descd = document.getElementById("weatherd");
-    let desc = document.getElementById("weatherdesc");
-    let hi = document.getElementById("hi");
-
-    // if we're on forecast
-    if (hi != null && descd != null)
-    {
-        name.innerHTML = icon.innerHTML = day.innerHTML = descd.innerHTML = " ";
-        hi.innerHTML = errortitle;
-        descd.innerHTML = "<td><p>" + errormessage + error + "</p></td>";
-        icon.innerHTML = "<td><div id='weathericon'>" + erroricon + "</div></td>";
-    }
-    else // if we're on weather
-    {
-        name.innerHTML = errortitle;
-        desc.innerHTML = errormessage + error;
-        icon.innerHTML = erroricon;
     }
 }
 
