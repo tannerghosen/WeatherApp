@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { Error } from "./Error.js"; // Error Handling
+import { WError } from "./Error.js"; // Error Handling
 // Config
 import config from './config.json';
 const apikey = config.apikey; // api key, set in config.json
@@ -15,9 +15,9 @@ let location = false; // used to determine if we've tried to get the location ye
 // GetWeather function, which calls the respective function for either Weather or Forecast
 // so long as lat and lon are set, otherwise we call Location to set them and then call GetWeather
 // again after a short period of time
-export async function GetWeather(type)
+export async function GetWeather(type, latitude = lat, longitude = lon, loc = location)
 {
-    if (lat !== "" && lon !== "") // if lat and lon isn't empty
+    if (latitude !== "" && longitude !== "") // if lat and lon isn't empty
     {
         switch (type) 
         {
@@ -35,7 +35,7 @@ export async function GetWeather(type)
     }
     else // if lat and lon aren't set, geolocation api hasn't finished running / hasn't been called yet
     {
-        if (location === false) // geolocation api wasn't called yet or failed?
+        if (loc === false) // geolocation api wasn't called yet or failed?
         {
             // we use awaits to ensure Location runs so it gets a chance to potential set lat/lon
             await Location(); // better call geolocating saul
@@ -50,7 +50,7 @@ export async function GetWeather(type)
 }
 
 // used to get the location and set latitude and longitude.
-async function Location()
+export async function Location()
 {
     if (navigator.geolocation) // we use the built-in geolocation API to get the user's latitude and longitude, but with their permission.
     {
@@ -63,33 +63,36 @@ async function Location()
             },
             (error) => // geolocator doesn't work
             {
+                location = false;
                 console.error(error);
                 if (error.code === error.NETWORK_ERROR)
                 {
-                    Error("Network Error. Your internet connection is likely down.");
+                    WError("Network Error. Your internet connection is likely down.");
+                    throw new Error("Network Error. Your internet connection is likely down.");
                 }
                 else if (error.code === error.TIMEOUT)
                 {
-                    Error("Network Error. The request for Geolocation API timed out.");
+                    WError("Network Error. The request for Geolocation API timed out.");
+                    throw new Error("Network Error. The request for Geolocation API timed out.");
                 }
                 else
                 {
-                    Error("Network Error. " + error.code);
+                    WError("Network Error. " + error.code);
+                    throw new Error("Network Error. " + error.code);
                 }
-                location = false; // set it to false so we get called again to get the location.
             }
         );
     }
     else
     {
-        Error("Geolocation API blocked / not supported.");
-        console.error("Geolocation API blocked / not supported.");
         location = false;
+        WError("Geolocation API blocked / not supported.");
+        throw new Error("Geolocation API blocked / not supported.");
     }
 }
 
 // Fetch fetches data from the API about the weather conditions in the user's area, with 2 types: weather and forecast.
-async function Fetch(type)
+export async function Fetch(type)
 {
     //console.log("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
     return fetch("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey)
@@ -101,7 +104,7 @@ async function Fetch(type)
             }
             else
             {
-                Error("Fetch error. Either the API is down, or the API Key is invalid.");
+                WError("Fetch error. Either the API is down, or the API Key is invalid.");
                 return false;
             }
         })
@@ -111,14 +114,14 @@ async function Fetch(type)
         })
         .catch((error) =>
         {
-            Error("Network Error. Your internet connection is likely down.");
+            WError("Network Error. Your internet connection is likely down.");
             console.error(error);
             return false;
         });
 }
 
 // Weather is called on the Weather Page once we're sure the Geolocation API was called via GetWeather.
-async function Weather()
+export async function Weather()
 {
         let data = await Fetch("weather"); // await a response from our Fetch function for weather
 
@@ -141,7 +144,7 @@ async function Weather()
 }
 
 // Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via GetWeather.
-async function Forecast()
+export async function Forecast()
 {
         let data = await Fetch("forecast");// await a response from our Fetch function for forecast
 
@@ -173,6 +176,12 @@ async function Forecast()
             if (!doesitexist && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
             {
                 // Make Day Object which will be pushed to our Weather Array
+                /*const Day = new Object();
+                Day.day = dayofweek;
+                Day.weathername = weathername;
+                Day.temp = temp;
+                Day.windspeed = windspeed;
+                Day.winddirection = winddirection;*/
                 const Day =
                 {
                     day: dayofweek, // day of the week
@@ -207,7 +216,7 @@ export function WeatherUpdater(arg)
     {
         const interval = setInterval(() =>
         {
-            GetWeather(arg);
+            GetWeather(arg, lat, lon, location);
         }, 900000);
 
         return () => clearInterval(interval); // clear on page change

@@ -2,7 +2,7 @@
 const [errortitle, errormessage, erroricon] = ["An error has occured.", "Please try again later. If this occurs often, report the error below.<br>Error: ", "❌"];
 
 // Error function, handles displaying an error to the screen.
-export function Error(error)
+export function WError(error)
 {
     let day = document.getElementById("day");
     let name = document.getElementById("weathername");
