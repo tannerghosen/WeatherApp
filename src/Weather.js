@@ -157,8 +157,8 @@ export async function Forecast()
         let city = data.city.name;
         hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
         const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
-        const Weather = []; // Weather contains our 5 days' weather info once the for loop below is done
-        for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results.
+        const Weather = []; // Weather contains our 5 days' Day object full of weather info once the for loop below is done
+        for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results, it's results of 5 days at various times.
         {
             // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
             const { dt, main, weather, wind } = list[i];
@@ -190,8 +190,8 @@ export async function Forecast()
                     windspeed: windspeed, // wind speed (same as above)
                     winddirection: winddirection, // wind direction (same as above)
                 };
-                console.log(Day);
-                Weather.push([Day]); // we add to our Weather array.
+                //console.log(Day);
+                Weather.push(Day); // we add the Day to our Weather array.
                 // Why do I want 12 or later?
                 // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
             }
@@ -200,19 +200,21 @@ export async function Forecast()
         name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
         for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
         {
-            const Day = Weather[i];
-            // We access the Day object at [0], because that's the only Day object for that individual day.
-            day.innerHTML += `<td><h5>${Day[0].day}</h5></td>`;
-            icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day[0].weathername)}</div></td>`;
-            name.innerHTML += `<td><h1 id="weathername">${Day[0].weathername}</h1></td>`;
-            desc.innerHTML += `<td><p>${Day[0].temp}</p><p>Winds ${Day[0].winddirection} at ${Day[0].windspeed}.</p></td>`;
+            const Day = Weather[i]; // access the Day object at index i in Weather array
+            day.innerHTML += `<td><h5>${Day.day}</h5></td>`;
+            if (i === 0)
+                icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername)}</div></td>`; // if it's night time I don't want weathericon to show a sunny day when it's clear, but otherwise it'd show the same icon regardless of caller
+            else
+                icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername, "forecast")}</div></td>`; // it's why we do make sure the caller is addressed as forecast here, to ensure every other day's icon is sunny if it's clear
+            name.innerHTML += `<td><h1 id="weathername">${Day.weathername}</h1></td>`;
+            desc.innerHTML += `<td><p>${Day.temp}</p><p>Winds ${Day.winddirection} at ${Day.windspeed}.</p></td>`;
         }
 }
 
 // Auto-updates Weather after 15 minutes
 export function WeatherUpdater(arg)
 {
-    useEffect(() => // we use an useEffect hook to directly be able to update the DOM with new weather every 15 minutes.
+    useEffect(() => // we use an useEffect hook to update the DOM with new weather every 15 minutes.
     {
         const interval = setInterval(() =>
         {
@@ -220,7 +222,7 @@ export function WeatherUpdater(arg)
         }, 900000);
 
         return () => clearInterval(interval); // clear on page change
-    }, []);
+    });
 }
 
 // Toggle Measurements between Imperial and Metric
@@ -274,7 +276,7 @@ export function TempConverter(temp)
 }
 
 // Determines weather icon to display depending on weathername
-export function WeatherIcon(weathername)
+export function WeatherIcon(weathername, caller)
 {
     switch (weathername)
     {
@@ -295,7 +297,7 @@ export function WeatherIcon(weathername)
         case 'Clear':
             let time = new Date();
             let hour = time.getHours();
-            if (hour >= 18 || hour <= 6)
+            if ((hour >= 18 || hour <= 6) && caller !== "forecast")
             {
                 return "🌙"
             }
