@@ -1,4 +1,5 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿/* to do: turn this into a class, this looks kinda bad */
+import React, { useEffect, useState } from 'react';
 import { WError } from "./Error.js"; // Error Handling
 // Config
 import config from './config.json';
@@ -11,7 +12,6 @@ if (!localStorage.getItem("measurement")) // default measurement on first page l
 let measurement = localStorage.getItem("measurement"); // we use localstorage to load the measurement. 
 let lat = "", lon = ""; // latitude and longitude, which is needed to get the weather in that user's area.
 let location = false; // used to determine if we've tried to get the location yet.
-
 // GetWeather function, which calls the respective function for either Weather or Forecast
 // so long as lat and lon are set, otherwise we call Location to set them and then call GetWeather
 // again after a short period of time
@@ -94,7 +94,7 @@ export async function Location()
 // Fetch fetches data from the API about the weather conditions in the user's area, with 2 types: weather and forecast.
 export async function Fetch(type)
 {
-    //console.log("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
+    console.log("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
     return fetch("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey)
         .then((response) =>
         {
@@ -158,6 +158,7 @@ export async function Forecast()
         hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
         const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
         const Weather = []; // Weather contains our 5 days' Day object full of weather info once the for loop below is done
+        const Daysdone = [];
         for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results, it's results of 5 days at various times.
         {
             // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
@@ -172,9 +173,10 @@ export async function Forecast()
 
             // Check if data for this day exists already in the Weather array
             // We use a optional chaining operator (?) to prevent a fatal error if the property doesn't exist.
-            const doesitexist = Weather.find((data) => data[0]?.day === dayofweek);
-            if (!doesitexist && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
+            //const doesitexist = Weather.find((data) => data[0]?.day === dayofweek);
+            if (!Daysdone.includes(dayofweek) && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
             {
+                Daysdone.push(dayofweek);
                 // Make Day Object which will be pushed to our Weather Array
                 /*const Day = new Object();
                 Day.day = dayofweek;
@@ -190,12 +192,13 @@ export async function Forecast()
                     windspeed: windspeed, // wind speed (same as above)
                     winddirection: winddirection, // wind direction (same as above)
                 };
+                //console.log("Should be getting pushed " + Day.day);
                 //console.log(Day);
                 Weather.push(Day); // we add the Day to our Weather array.
                 // Why do I want 12 or later?
                 // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
             }
-        }
+    }
         // if they were used previously we want to clear them of anything in there
         name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
         for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
@@ -214,6 +217,7 @@ export async function Forecast()
 // Auto-updates Weather after 15 minutes
 export function WeatherUpdater(arg)
 {
+    //console.log("CALLED HERE "+arg);
     useEffect(() => // we use an useEffect hook to update the DOM with new weather every 15 minutes.
     {
         const interval = setInterval(() =>
