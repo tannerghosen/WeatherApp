@@ -21,17 +21,18 @@ const NewWeather = () =>
     // again with the updated page value.
     function ToggleWeather() // Toggle Weather function, essentially setpage will update the page to either forecast if it's weather, or vice versa.
     {
-        setpage(prev => (prev === "weather" ? "forecast" : "weather"));
+        setpage(prev => (prev === "weather" ? "forecast" : "weather")); // set's prev to forecast if equal to weather, else weather
     }
     // if page === weather, get the weather page skeleton, else get forecast page skeleton
+    // if page === weather, <weatherpage>, else <forecastpage>
     return (
         <div className="App" id="App">
             <div className="body">
-                {page === "weather" ? <WeatherPage></WeatherPage> : <ForecastPage></ForecastPage>} 
+                {page === "weather" ? <WeatherPage></WeatherPage> : <ForecastPage></ForecastPage>}  
             </div>
             <span width="100%"><button className="settingbutton" onClick={() => { GetWeather(page) }}>Refresh</button> <button className="settingbutton" onClick={() => { ToggleMeasurements(); GetWeather(page); }}>Toggle Imperial/Metric</button> <button className="settingbutton" onClick={() => { ToggleWeather(); }}>Toggle Weather</button></span>
         </div>
-    );
+    ); 
 };
 
 export default NewWeather;

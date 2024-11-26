@@ -158,7 +158,7 @@ export async function Forecast()
         hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
         const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
         const Weather = []; // Weather contains our 5 days' Day object full of weather info once the for loop below is done
-        const Daysdone = [];
+        const Daysdone = []; // This keeps track of the days we've gone through (if we got a day, then we add it to this array)
         for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results, it's results of 5 days at various times.
         {
             // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
