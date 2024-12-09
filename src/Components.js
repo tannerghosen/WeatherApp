@@ -1,4 +1,4 @@
-// Pages Handling Code
+// Components for the Weather App
 export function WeatherPage()
 {
     return <><div id="weathericon"></div><h1 id="weathername">Loading...</h1><div id="weatherdesc">Please wait.</div></>;
@@ -23,8 +23,4 @@ export function ForecastPage()
                 </tr>
             </tbody>
         </table></>;
-}
-
-export function AboutPage() {
-    return <><div id="weathericon"></div><h1 id="weathername">Loading...</h1><div id="weatherdesc">Please wait.</div></>;
 }

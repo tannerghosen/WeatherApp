@@ -1,5 +1,5 @@
 import { GetWeather, WeatherUpdater, ToggleMeasurements } from '../Weather.js';
-import { ForecastPage, WeatherPage } from '../PageHandler.js';
+import { ForecastPage, WeatherPage } from '../Components.js';
 import { Spin } from '../Effects.js';
 import React, { useEffect , useState } from 'react';
 
@@ -19,9 +19,9 @@ const NewWeather = () =>
     WeatherUpdater(page); // Why isn't this in the above UseEffect? 2 reasons, 1. you can't put a hook in a hook, and
     // 2. WeatherUpdater also uses UseEffect, meaning it is affected by page re-renders and will exit the function as the page re-rendered, and will be called
     // again with the updated page value.
-    function ToggleWeather() // Toggle Weather function, essentially setpage will update the page to either forecast if it's weather, or vice versa.
+    function ToggleWeather() // Toggle Weather function, essentially setpage will update the page to either forecast if the current page is weather, or vice versa.
     {
-        setpage(prev => (prev === "weather" ? "forecast" : "weather")); // set's prev to forecast if equal to weather, else weather
+        setpage(thepage => (thepage === "weather" ? "forecast" : "weather")); // set's page to forecast if thepage (current page) is equal to weather, else weather
     }
     // if page === weather, get the weather page skeleton, else get forecast page skeleton
     // if page === weather, <weatherpage>, else <forecastpage>

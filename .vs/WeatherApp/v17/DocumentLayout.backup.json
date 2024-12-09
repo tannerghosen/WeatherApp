@@ -3,18 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\newweather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\newweather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -23,24 +11,36 @@
       "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pagehandler.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\about.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\about.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\nopage.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\nopage.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\weather.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\weather.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\about.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\about.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\forecast.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\forecast.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\nopage.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\nopage.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\weather.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\weather.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\weather.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\pages\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|solutionrelative:src\\pages\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A4BA1ED9-C438-47F6-8261-3AFA231B8039}|weatherapp.esproj|c:\\users\\tanner ghosen\\documents\\my code\\visual studio\\weatherapp - copy\\src\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -94,23 +94,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "About.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\About.js",
               "RelativeDocumentMoniker": "src\\pages\\About.js",
               "ToolTip": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\About.js",
               "RelativeToolTip": "src\\pages\\About.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAD1AQAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAD1AQAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-21T01:24:57.634Z"
+              "WhenOpened": "2024-09-21T01:24:57.634Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "NewWeather.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\NewWeather.js",
               "RelativeDocumentMoniker": "src\\pages\\NewWeather.js",
@@ -123,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "Weather.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\Weather.js",
               "RelativeDocumentMoniker": "src\\Weather.js",
@@ -131,12 +132,11 @@
               "RelativeToolTip": "src\\Weather.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAKAAAAB/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-04-27T00:59:16.012Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-27T00:59:16.012Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Weather.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\Weather.js",
               "RelativeDocumentMoniker": "src\\pages\\Weather.js",
@@ -149,31 +149,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "Forecast.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\Forecast.js",
               "RelativeDocumentMoniker": "src\\pages\\Forecast.js",
               "ToolTip": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\Forecast.js",
               "RelativeToolTip": "src\\pages\\Forecast.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAfAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-04-27T01:06:13.251Z"
+              "WhenOpened": "2024-04-27T01:06:13.251Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "NoPage.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\NoPage.js",
               "RelativeDocumentMoniker": "src\\pages\\NoPage.js",
               "ToolTip": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\NoPage.js",
               "RelativeToolTip": "src\\pages\\NoPage.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAWAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-20T22:47:39.538Z"
+              "WhenOpened": "2024-09-20T22:47:39.538Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Layout.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\pages\\Layout.js",
               "RelativeDocumentMoniker": "src\\pages\\Layout.js",
@@ -185,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Weather.test.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\Weather.test.js",
               "RelativeDocumentMoniker": "src\\Weather.test.js",
@@ -197,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "config.json",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\config.json",
               "RelativeDocumentMoniker": "src\\config.json",
@@ -210,15 +212,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "PageHandler.js",
               "DocumentMoniker": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\PageHandler.js",
               "RelativeDocumentMoniker": "src\\PageHandler.js",
               "ToolTip": "C:\\Users\\Tanner Ghosen\\Documents\\My Code\\Visual Studio\\WeatherApp - Copy\\src\\PageHandler.js",
               "RelativeToolTip": "src\\PageHandler.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-09-21T00:31:16.141Z"
+              "WhenOpened": "2024-09-21T00:31:16.141Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
