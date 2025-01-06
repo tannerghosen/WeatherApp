@@ -1,4 +1,4 @@
-﻿/* to do: turn this into a class, this looks kinda bad */
+﻿// Weather.js is a file that contains all functions related to the weather app, like getting, fetching, converting, and updating weather data.
 import React, { useEffect, useState } from 'react';
 import { WError } from "./Error.js"; // Error Handling
 // Config
@@ -130,17 +130,23 @@ export async function Weather()
         let icon = document.getElementById("weathericon");
  
         // This is based on the structure of the JSON response openweathermap gives us.
-        let weathername = data.weather[0].main;
-        let weatherdesc = data.weather[0].description;
-        weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
-        let city = data.name;
-        let temp = TempConverter(data.main.temp); // temp is in Kelvin
-        let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
-        let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
+        try
+        {
+            let weathername = data.weather[0].main;
+            let weatherdesc = data.weather[0].description;
+            weatherdesc = weatherdesc.charAt(0).toUpperCase() + weatherdesc.slice(1); // They tend to send description as all lowercase, no puncutation.
+            let city = data.name;
+            let temp = TempConverter(data.main.temp); // temp is in Kelvin
+            let windspeed = WindSpeedConverter(data.wind.speed); // wind is in m / s
+            let winddirection = WindDirection(data.wind.deg); // we convert wind degree to a direction
 
-        icon.innerHTML = WeatherIcon(weathername);
-        name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
-        desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
+            icon.innerHTML = WeatherIcon(weathername);
+            name.innerHTML = weathername === "Squall" ? "Windy" : weathername; // squall is a wind storm
+            desc.innerHTML = weatherdesc + " in  " + city + ". Temperature is " + temp + ". Winds " + winddirection + " at " + windspeed + ".";
+        }
+        catch
+        {
+        }
 }
 
 // Forecast is called on 5 Day Forecast once we're sure the Geolocation API was called via GetWeather.
@@ -152,65 +158,72 @@ export async function Forecast()
         let name = document.getElementById("weathername");
         let icon = document.getElementById("weathericon");
         let desc = document.getElementById("weatherd");
-        let hi = document.getElementById("hi");
+        let toptext = document.getElementById("toptext");
 
-        let city = data.city.name;
-        hi.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
-        const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
-        const Weather = []; // Weather contains our 5 days' Day object full of weather info once the for loop below is done
-        const Daysdone = []; // This keeps track of the days we've gone through (if we got a day, then we add it to this array)
-        for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results, it's results of 5 days at various times.
+        try
         {
-            // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
-            const { dt, main, weather, wind } = list[i];
-
-            let date = new Date(dt * 1000);
-            let dayofweek = date.toLocaleDateString('en-US', { weekday: 'long' });
-            let weathername = weather[0].main;
-            let temp = TempConverter(main.temp);
-            let windspeed = WindSpeedConverter(wind.speed);
-            let winddirection = WindDirection(wind.deg);
-
-            // Check if data for this day exists already in the Weather array
-            // We use a optional chaining operator (?) to prevent a fatal error if the property doesn't exist.
-            //const doesitexist = Weather.find((data) => data[0]?.day === dayofweek);
-            if (!Daysdone.includes(dayofweek) && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
+            let city = data.city.name;
+            toptext.innerHTML = "Here's your 5 Day Forecast for " + city + ".";
+            const { list } = data; // our data that we read in our for loop that contains weather information for up to 5 days.
+            const Weather = []; // Weather contains our 5 days' Day object full of weather info once the for loop below is done
+            const Daysdone = []; // This keeps track of the days we've gone through (if we got a day, then we add it to this array)
+            for (let i = 0; i < list.length; i++) // go through the list of weathers we got for 5 days, it's not just 5 results, it's results of 5 days at various times.
             {
-                Daysdone.push(dayofweek);
-                // Make Day Object which will be pushed to our Weather Array
-                /*const Day = new Object();
-                Day.day = dayofweek;
-                Day.weathername = weathername;
-                Day.temp = temp;
-                Day.windspeed = windspeed;
-                Day.winddirection = winddirection;*/
-                const Day =
+                // get the day, main (which is where we get temp), weather, and wind (which is where we get speed/dir) from the current data row.
+                const { dt, main, weather, wind } = list[i];
+
+                let date = new Date(dt * 1000);
+                let dayofweek = date.toLocaleDateString('en-US', { weekday: 'long' });
+                let weathername = weather[0].main;
+                let temp = TempConverter(main.temp);
+                let windspeed = WindSpeedConverter(wind.speed);
+                let winddirection = WindDirection(wind.deg);
+
+                // Check if data for this day exists already in the Weather array
+                // We use a optional chaining operator (?) to prevent a fatal error if the property doesn't exist.
+                //const doesitexist = Weather.find((data) => data[0]?.day === dayofweek);
+                if (!Daysdone.includes(dayofweek) && (date.getHours() >= 12)) // if it doesn't exist in our Weather array and the time is greater than 12, continue
                 {
-                    day: dayofweek, // day of the week
-                    weathername: weathername, // weather's name (for the condition and icon)
-                    temp: temp, // temp (converted prior to getting here)
-                    windspeed: windspeed, // wind speed (same as above)
-                    winddirection: winddirection, // wind direction (same as above)
-                };
-                //console.log("Should be getting pushed " + Day.day);
-                //console.log(Day);
-                Weather.push(Day); // we add the Day to our Weather array.
-                // Why do I want 12 or later?
-                // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
+                    Daysdone.push(dayofweek);
+                    // Make Day Object which will be pushed to our Weather Array
+                    /*const Day = new Object();
+                    Day.day = dayofweek;
+                    Day.weathername = weathername;
+                    Day.temp = temp;
+                    Day.windspeed = windspeed;
+                    Day.winddirection = winddirection;*/
+                    const Day =
+                    {
+                        day: dayofweek, // day of the week
+                        weathername: weathername, // weather's name (for the condition and icon)
+                        temp: temp, // temp (converted prior to getting here)
+                        windspeed: windspeed, // wind speed (same as above)
+                        winddirection: winddirection, // wind direction (same as above)
+                    };
+                    //console.log("Should be getting pushed " + Day.day);
+                    //console.log(Day);
+                    Weather.push(Day); // we add the Day to our Weather array.
+                    // Why do I want 12 or later?
+                    // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
+                }
             }
-    }
-        // if they were used previously we want to clear them of anything in there
-        name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
-        for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
+
+            // if they were used previously we want to clear them of anything in there
+            name.innerHTML = icon.innerHTML = day.innerHTML = desc.innerHTML = " ";
+            for (let i = 0; i < 5; i++) // insert each day's weather info into each of the rows
+            {
+                const Day = Weather[i]; // access the Day object at index i in Weather array
+                day.innerHTML += `<td><h5>${Day.day}</h5></td>`;
+                if (i === 0)
+                    icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername)}</div></td>`; // if it's night time I don't want weathericon to show a sunny day when it's clear, but otherwise it'd show the same icon regardless of caller
+                else
+                    icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername, "forecast")}</div></td>`; // it's why we do make sure the caller is addressed as forecast here, to ensure every other day's icon is sunny if it's clear
+                name.innerHTML += `<td><h1 id="weathername">${Day.weathername}</h1></td>`;
+                desc.innerHTML += `<td><p>${Day.temp}</p><p>Winds ${Day.winddirection} at ${Day.windspeed}.</p></td>`;
+            }
+        }
+        catch
         {
-            const Day = Weather[i]; // access the Day object at index i in Weather array
-            day.innerHTML += `<td><h5>${Day.day}</h5></td>`;
-            if (i === 0)
-                icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername)}</div></td>`; // if it's night time I don't want weathericon to show a sunny day when it's clear, but otherwise it'd show the same icon regardless of caller
-            else
-                icon.innerHTML += `<td><div id="weathericon">${WeatherIcon(Day.weathername, "forecast")}</div></td>`; // it's why we do make sure the caller is addressed as forecast here, to ensure every other day's icon is sunny if it's clear
-            name.innerHTML += `<td><h1 id="weathername">${Day.weathername}</h1></td>`;
-            desc.innerHTML += `<td><p>${Day.temp}</p><p>Winds ${Day.winddirection} at ${Day.windspeed}.</p></td>`;
         }
 }
 

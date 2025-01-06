@@ -6,7 +6,7 @@ export function WeatherPage()
 
 export function ForecastPage()
 {
-    return <><h3 id="hi">Loading...</h3>
+    return <><h3 id="toptext">Loading...</h3>
         <table id="weatherforecast">
             <tbody>
                 <tr id="day">

@@ -2,8 +2,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
-import Weather from "./pages/Weather";
-import Forecast from "./pages/Forecast";
 import NoPage from "./pages/NoPage";
 import NewWeather from "./pages/NewWeather";
 import About from "./pages/About";
@@ -36,8 +34,6 @@ function App()
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<NewWeather />} />
-                    <Route path="/forecast" element={<Forecast />} />
-                    <Route path="/oldweather" element={<Weather />} />
                     <Route path="/about" element={<About />} />
                     <Route path="*" element={<NoPage />} />
                 </Route>
