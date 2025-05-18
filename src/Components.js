@@ -1,4 +1,4 @@
-// Components for the Weather App
+﻿// Components for the Weather App
 export function WeatherPage()
 {
     return <><div id="weathericon"></div><h1 id="weathername">Loading...</h1><div id="weatherdesc">Please wait.</div></>;
@@ -6,7 +6,8 @@ export function WeatherPage()
 
 export function ForecastPage()
 {
-    return <><h3 id="toptext">Loading...</h3>
+    return <>
+        <h3 id="toptext">Loading...</h3>
         <table id="weatherforecast">
             <tbody>
                 <tr id="day">
@@ -23,4 +24,12 @@ export function ForecastPage()
                 </tr>
             </tbody>
         </table></>;
+}
+export function AboutPage()
+{
+    return <><div id="weathericon">🌙</div><h1 id="weathername">Weather App</h1><div id="weatherdesc">A JavaScript app made by Tanner Ghosen utilizing JavaScript with some React.js and React Router.</div></>
+}
+
+export function EasterEgg()
+{
 }

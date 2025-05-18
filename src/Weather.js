@@ -94,7 +94,6 @@ export async function Location()
 // Fetch fetches data from the API about the weather conditions in the user's area, with 2 types: weather and forecast.
 export async function Fetch(type)
 {
-    console.log("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey);
     return fetch("https://api.openweathermap.org/data/2.5/" + type + '?lat=' + lat + '&lon=' + lon + '&appid=' + apikey)
         .then((response) =>
         {
@@ -200,8 +199,6 @@ export async function Forecast()
                         windspeed: windspeed, // wind speed (same as above)
                         winddirection: winddirection, // wind direction (same as above)
                     };
-                    //console.log("Should be getting pushed " + Day.day);
-                    //console.log(Day);
                     Weather.push(Day); // we add the Day to our Weather array.
                     // Why do I want 12 or later?
                     // Because we'll get the first result it possibly can otherwise, which doesn't accurately reflect the general weather of the day at 12am.
@@ -230,7 +227,6 @@ export async function Forecast()
 // Auto-updates Weather after 15 minutes
 export function WeatherUpdater(arg)
 {
-    //console.log("CALLED HERE "+arg);
     useEffect(() => // we use an useEffect hook to update the DOM with new weather every 15 minutes.
     {
         const interval = setInterval(() =>
